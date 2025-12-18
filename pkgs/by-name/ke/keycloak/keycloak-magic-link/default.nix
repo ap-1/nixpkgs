@@ -29,6 +29,9 @@ maven.buildMavenPackage rec {
     homepage = "https://github.com/p2-inc/keycloak-magic-link";
     description = "Magic Link Authentication for Keycloak";
     license = lib.licenses.elastic20;
-    maintainers = with lib.maintainers; [ lykos153 anish ];
+    maintainers = with lib.maintainers; [
+      lykos153
+      anish
+    ];
   };
 }

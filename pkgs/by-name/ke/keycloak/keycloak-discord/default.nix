@@ -26,6 +26,9 @@ maven.buildMavenPackage rec {
     homepage = "https://github.com/wadahiro/keycloak-discord";
     description = "Keycloak Identity Provider extension for Discord";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ mkg20001 anish ];
+    maintainers = with lib.maintainers; [
+      mkg20001
+      anish
+    ];
   };
 }
