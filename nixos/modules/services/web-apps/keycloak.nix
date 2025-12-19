@@ -252,11 +252,15 @@ in
         };
 
         passwordFile = mkOption {
-          type = path;
+          type = nullOr path;
+          default = null;
           example = "/run/keys/db_password";
           apply = assertStringPath "passwordFile";
           description = ''
             The path to a file containing the database password.
+
+            Not required when using Unix socket authentication (peer auth)
+            by setting `host` to a socket path like `/run/postgresql`.
           '';
         };
       };
@@ -553,6 +557,13 @@ in
             for more information.
           '';
         }
+        {
+          assertion = cfg.database.passwordFile != null || hasPrefix "/" cfg.database.host;
+          message = ''
+            services.keycloak.database.passwordFile must be set unless using
+            Unix socket authentication (host starting with /).
+          '';
+        }
       ];
 
       environment.systemPackages = [ keycloakBuild ];
@@ -588,7 +599,9 @@ in
           {
             db = if cfg.database.type == "postgresql" then "postgres" else cfg.database.type;
             db-username = if databaseActuallyCreateLocally then "keycloak" else cfg.database.username;
-            db-password._secret = cfg.database.passwordFile;
+            db-password = mkIf (cfg.database.passwordFile != null) {
+              _secret = cfg.database.passwordFile;
+            };
             db-url-host = cfg.database.host;
             db-url-port = toString cfg.database.port;
             db-url-database = if databaseActuallyCreateLocally then "keycloak" else cfg.database.name;
@@ -778,5 +791,8 @@ in
     };
 
   meta.doc = ./keycloak.md;
-  meta.maintainers = [ maintainers.talyz ];
+  meta.maintainers = with maintainers; [
+    talyz
+    anish
+  ];
 }
