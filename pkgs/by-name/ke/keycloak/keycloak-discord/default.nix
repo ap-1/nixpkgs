@@ -14,7 +14,9 @@ maven.buildMavenPackage rec {
     hash = "sha256-BA7x28k/aMI3VPQmEgNhKD9N34DdYqadAD/m4cxLSYg=";
   };
 
-  mvnHash = "sha256-Or7VOZwz4NfDtb0kmHbbTYE/avAc+H8+Y6JPw+HGjxs=";
+  mvnHash = if stdenv.hostPlatform.isDarwin
+    then "sha256-Or7VOZwz4NfDtb0kmHbbTYE/avAc+H8+Y6JPw+HGjxs="
+    else "sha256-uhm++MGgTN32/xbHNd+Z3Hes9Q5tl8ztIQ92LxMWKjg=";
 
   installPhase = ''
     runHook preInstall
