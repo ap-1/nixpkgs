@@ -23,7 +23,7 @@ maven.buildMavenPackage rec {
 
   installPhase = ''
     runHook preInstall
-    install -Dm444 "$src" "$out/keycloak-discord-$version.jar"
+    install -Dm444 target/keycloak-discord-${version}.jar "$out/keycloak-discord-${version}.jar"
     runHook postInstall
   '';
 
