@@ -19,7 +19,7 @@ maven.buildMavenPackage rec {
     let
       mvnHashes = {
         "aarch64-darwin" = "sha256-L+LVJGBVhkaWOdXpHep9f2s7hLr3enf5POm8U+Y7I1w=";
-        "x86_64-darwin" = lib.fakeHash;
+        "x86_64-darwin" = "sha256-G/e0mgAGP+6zvX3b0EuI95bdLT7Bzwh1GgcAfxzsIhE=";
         "aarch64-linux" = "sha256-Nrs+gqRYPKXWRr0COAsKmOrNaza2fxhEAJ5x896tKvA=";
         "x86_64-linux" = "sha256-oHMkzXHR4mETH6VsxhFuap3AcjvTXytNkKlLY/mzT3g=";
       };
