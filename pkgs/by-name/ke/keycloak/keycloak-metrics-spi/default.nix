@@ -1,9 +1,9 @@
 {
   maven,
   lib,
+  stdenv,
   fetchFromGitHub,
 }:
-
 maven.buildMavenPackage rec {
   pname = "keycloak-metrics-spi";
   version = "7.0.0";
@@ -15,7 +15,16 @@ maven.buildMavenPackage rec {
     hash = "sha256-C6ueYhSMVMGpjHF5QQj9jfaS9sGTZ3wKZq2xmNgTmAg=";
   };
 
-  mvnHash = "sha256-L+LVJGBVhkaWOdXpHep9f2s7hLr3enf5POm8U+Y7I1w=";
+  mvnHash =
+    let
+      mvnHashes = {
+        "aarch64-darwin" = "sha256-L+LVJGBVhkaWOdXpHep9f2s7hLr3enf5POm8U+Y7I1w=";
+        "x86_64-darwin" = lib.fakeHash;
+        "aarch64-linux" = "sha256-Nrs+gqRYPKXWRr0COAsKmOrNaza2fxhEAJ5x896tKvA=";
+        "x86_64-linux" = "sha256-oHMkzXHR4mETH6VsxhFuap3AcjvTXytNkKlLY/mzT3g=";
+      };
+    in
+    mvnHashes.${stdenv.hostPlatform.system};
 
   installPhase = ''
     runHook preInstall
