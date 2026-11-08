@@ -6,7 +6,9 @@
   nodejs,
   pnpm_10,
   pnpmConfigHook,
+  pkg-config,
   rustPlatform,
+  sqlite,
   stdenv,
   versionCheckHook,
 }:
@@ -75,6 +77,9 @@ rustPlatform.buildRustPackage (
       fetcherVersion = 3;
       hash = "sha256-/XbMChPNLO9aHly6PATVRpaMTpvQz01fNQbG7vsraMo=";
     };
+
+    nativeBuildInputs = [ pkg-config ];
+    buildInputs = [ sqlite ];
 
     preBuild = ''
       mkdir -p ui/dist
