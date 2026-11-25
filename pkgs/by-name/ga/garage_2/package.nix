@@ -12,6 +12,8 @@
   nix-update-script,
   nixosTests,
   stdenv,
+  garage-webadmin,
+  withWebadmin ? true,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "garage";
@@ -49,6 +51,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
     SODIUM_USE_PKG_CONFIG = true;
     LIBSQLITE3_SYS_USE_PKG_CONFIG = true;
     ZSTD_SYS_USE_PKG_CONFIG = true;
+  } // lib.optionalAttrs withWebadmin {
+    GARAGE_WEBADMIN_DIST = garage-webadmin;
   };
 
   # See https://git.deuxfleurs.fr/Deuxfleurs/garage/src/tag/v2.4.1/nix/compile.nix#L71-L78
@@ -66,7 +70,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "sqlite"
     "syslog"
     "telemetry-otlp"
-  ];
+  ] ++ lib.optional withWebadmin "webadmin";
 
   postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
     installShellCompletion --cmd garage \
